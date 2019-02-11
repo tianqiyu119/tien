@@ -6,8 +6,8 @@ import com.underwood.constant.Constant
 import io.vertx.config.ConfigRetriever
 import io.vertx.core.Vertx
 import io.vertx.core.json.JsonObject
-import io.vertx.kotlin.config.ConfigRetrieverOptions
-import io.vertx.kotlin.config.ConfigStoreOptions
+import io.vertx.kotlin.config.configRetrieverOptionsOf
+import io.vertx.kotlin.config.configStoreOptionsOf
 import io.vertx.kotlin.core.json.array
 import io.vertx.kotlin.core.json.json
 import io.vertx.kotlin.core.json.obj
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 object TConfig {
     private val log = LoggerFactory.getLogger(Constant.APPLICATION_NAME)
     private var config: JsonObject = JsonObject()
-    private val store = ConfigStoreOptions(
+    private val store = configStoreOptionsOf(
             type = "git",
             config = json {
                 obj(
@@ -25,7 +25,7 @@ object TConfig {
                         "filesets" to array(obj("pattern" to "*.json"))
                 )
             })
-    private val retrieverOptions = ConfigRetrieverOptions(stores = listOf(store), scanPeriod = 100000)
+    private val retrieverOptions = configRetrieverOptionsOf(stores = listOf(store), scanPeriod = 100000)
     private val retriever = ConfigRetriever.create(Vertx.vertx(), retrieverOptions)
 
     fun init() {

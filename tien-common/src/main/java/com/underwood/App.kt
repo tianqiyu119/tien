@@ -5,8 +5,8 @@ import com.underwood.constant.Constant
 import com.underwood.web.TWebVerticle
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router
-import io.vertx.kotlin.core.DeploymentOptions
-import io.vertx.kotlin.core.VertxOptions
+import io.vertx.kotlin.core.deploymentOptionsOf
+import io.vertx.kotlin.core.vertxOptionsOf
 import org.slf4j.LoggerFactory
 
 fun main(args: Array<String>) {
@@ -16,9 +16,9 @@ fun main(args: Array<String>) {
     val defaultEventLoopPoolSize = Runtime.getRuntime().availableProcessors() * 2
     val eventLoopPoolSize = config.getInteger("eventLoopPoolSize", defaultEventLoopPoolSize)
 
-    val vertxOptions = VertxOptions(workerPoolSize = workerPoolSize, eventLoopPoolSize = eventLoopPoolSize)
+    val vertxOptions = vertxOptionsOf(workerPoolSize = workerPoolSize, eventLoopPoolSize = eventLoopPoolSize)
     val vertx = Vertx.vertx(vertxOptions)
-    val deploymentOptions = DeploymentOptions(instances = config.getInteger("instance", 1))
+    val deploymentOptions = deploymentOptionsOf(instances = config.getInteger("instance", 1))
     vertx.deployVerticle(TemplateVerticle(), deploymentOptions) { res ->
         if (res.succeeded()) {
             log.info("Deploy success. Deployment id is: ${res.result()}")

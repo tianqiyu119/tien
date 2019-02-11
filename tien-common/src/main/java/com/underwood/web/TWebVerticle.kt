@@ -13,7 +13,7 @@ import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.CookieHandler
 import io.vertx.ext.web.handler.CorsHandler
 import io.vertx.ext.web.handler.StaticHandler
-import io.vertx.kotlin.core.http.HttpServerOptions
+import io.vertx.kotlin.core.http.httpServerOptionsOf
 
 
 fun RoutingContext.success(data: JsonObject) {
@@ -29,7 +29,7 @@ fun RoutingContext.failed(data: JsonObject, errorCode: Int = 10086, errorMsg: St
 abstract class TWebVerticle: AbstractVerticle() {
     override fun start() {
         val config = TConfig.instance()
-        val httpServerOptions = HttpServerOptions(port = config.getInteger("port", 8080))
+        val httpServerOptions = httpServerOptionsOf(port = config.getInteger("port", 8080))
         val server = vertx.createHttpServer(httpServerOptions)
         val router = Router.router(vertx);
 
