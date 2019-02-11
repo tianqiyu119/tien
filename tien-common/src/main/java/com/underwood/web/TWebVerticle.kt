@@ -31,12 +31,12 @@ abstract class TWebVerticle: AbstractVerticle() {
         val config = TConfig.instance()
         val httpServerOptions = httpServerOptionsOf(port = config.getInteger("port", 8080))
         val server = vertx.createHttpServer(httpServerOptions)
-        val router = Router.router(vertx);
+        val router = Router.router(vertx)
 
         router.initHandlerConfig()
         router.registerHandler()
 
-        server.requestHandler { router.accept(it) }.listen()
+        server.requestHandler(router).listen()
     }
 
     fun Router.initHandlerConfig() {
